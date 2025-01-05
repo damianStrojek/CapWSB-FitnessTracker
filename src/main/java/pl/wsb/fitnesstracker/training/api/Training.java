@@ -96,6 +96,16 @@ public class Training {
     @Column(name = "average_speed")
     private double averageSpeed;
 
+    /**
+     * Constructs a new training session with the specified details.
+     *
+     * @param user         the user associated with the training session
+     * @param startTime    the start time of the training session
+     * @param endTime      the end time of the training session
+     * @param activityType the type of activity performed during the training session
+     * @param distance     the distance covered during the training session
+     * @param averageSpeed the average speed achieved during the training session
+     */
     public Training(
             final User user,
             final LocalDateTime startTime,

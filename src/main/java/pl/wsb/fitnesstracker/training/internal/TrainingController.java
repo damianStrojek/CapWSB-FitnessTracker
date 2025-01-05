@@ -3,7 +3,6 @@ package pl.wsb.fitnesstracker.training.internal;
 import pl.wsb.fitnesstracker.training.api.*;
 import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/v1/trainings")
-@RequiredArgsConstructor
 class TrainingController {
 
     private final TrainingProvider trainingProvider;
