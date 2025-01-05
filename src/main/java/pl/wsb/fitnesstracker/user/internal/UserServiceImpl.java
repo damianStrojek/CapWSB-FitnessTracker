@@ -10,6 +10,7 @@ import pl.wsb.fitnesstracker.user.api.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ import java.util.Optional;
 class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
+    private final Logger log = Logger.getLogger(UserServiceImpl.class.getName());
 
     UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -24,7 +26,8 @@ class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public User createUser(final User user) {
-        log.info("Creating User {}", user);
+
+        log.info("Creating User " + user);
 
         if (user.getId() != null) {
             throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
@@ -35,7 +38,7 @@ class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public void deleteUserById(final Long userId) {
-        log.info("Deleting User with ID {}", userId);
+        log.info("Deleting User with ID " + userId);
 
         if (UserServiceImpl.this.getUser(userId).isEmpty()) {
             throw new IllegalArgumentException("There is no user with given ID!");

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 import static java.time.LocalDate.now;
 import static java.util.Objects.isNull;
@@ -44,6 +45,8 @@ class InitialDataLoader {
     @Transactional
     @SuppressWarnings({"squid:S1854", "squid:S1481", "squid:S1192", "unused"})
     public void loadInitialData(ContextRefreshedEvent event) {
+        final Logger log = Logger.getLogger(InitialDataLoader.class.getName());
+
         verifyDependenciesAutowired();
 
         log.info("Loading initial data to the database");
