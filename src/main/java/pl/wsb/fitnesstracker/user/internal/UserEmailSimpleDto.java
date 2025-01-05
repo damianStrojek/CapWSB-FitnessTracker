@@ -5,18 +5,11 @@
 |____/|__,|_|_|_|_|__,|_|_|  |_____|_| |_| |___|_| |___|_,_|  |___|___|___|___|___|
                                                |___|
  */
-package pl.wsb.fitnesstracker.mail.api;
+package pl.wsb.fitnesstracker.user.internal;
+
+import jakarta.annotation.Nullable;
 
 /**
- * API interface for component responsible for sending emails.
+ * UserEmailSimpleDto is a simple representation of User entity.
  */
-public interface EmailSender {
-
-    /**
-     * Sends the email message to the recipient from the provided {@link EmailDto}.
-     *
-     * @param email information on email to be sent
-     */
-    void send(EmailDto email);
-
-}
+public record UserEmailSimpleDto(@Nullable Long id, String email){}

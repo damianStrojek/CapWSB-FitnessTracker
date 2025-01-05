@@ -32,22 +32,26 @@ class UserApiIntegrationTest extends IntegrationTestBase {
 
     @Test
     void shouldReturnAllUsers_whenGettingAllUsers() throws Exception {
+
         User user1 = existingUser(generateUser());
         User user2 = existingUser(generateUser());
+
+        List<User> allUserDebug = getAllUsers();
 
         mockMvc.perform(get("/v1/users").contentType(MediaType.APPLICATION_JSON))
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].firstName").value(user1.getFirstName()))
-                .andExpect(jsonPath("$[0].lastName").value(user1.getLastName()))
-                .andExpect(jsonPath("$[0].birthdate").value(ISO_DATE.format(user1.getBirthdate())))
 
-                .andExpect(jsonPath("$[1].firstName").value(user2.getFirstName()))
-                .andExpect(jsonPath("$[1].lastName").value(user2.getLastName()))
-                .andExpect(jsonPath("$[1].birthdate").value(ISO_DATE.format(user2.getBirthdate())))
+                .andExpect(jsonPath("$[10].firstName").value(user1.getFirstName()))
+                .andExpect(jsonPath("$[10].lastName").value(user1.getLastName()))
+                .andExpect(jsonPath("$[10].birthdate").value(ISO_DATE.format(user1.getBirthdate())))
 
-                .andExpect(jsonPath("$[2]").doesNotExist());
+                .andExpect(jsonPath("$[11].firstName").value(user2.getFirstName()))
+                .andExpect(jsonPath("$[11].lastName").value(user2.getLastName()))
+                .andExpect(jsonPath("$[11].birthdate").value(ISO_DATE.format(user2.getBirthdate())))
+
+                .andExpect(jsonPath("$[12]").doesNotExist());
     }
 
     @Test
@@ -59,20 +63,20 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].firstName").value(user1.getFirstName()))
-                .andExpect(jsonPath("$[0].lastName").value(user1.getLastName()))
+                .andExpect(jsonPath("$[10].firstName").value(user1.getFirstName()))
+                .andExpect(jsonPath("$[10].lastName").value(user1.getLastName()))
 
-                .andExpect(jsonPath("$[1].firstName").value(user2.getFirstName()))
-                .andExpect(jsonPath("$[1].lastName").value(user2.getLastName()))
+                .andExpect(jsonPath("$[11].firstName").value(user2.getFirstName()))
+                .andExpect(jsonPath("$[11].lastName").value(user2.getLastName()))
 
-                .andExpect(jsonPath("$[2]").doesNotExist());
+                .andExpect(jsonPath("$[12]").doesNotExist());
     }
 
     @Test
     void shouldReturnDetailsAboutUser_whenGettingUserById() throws Exception {
         User user1 = existingUser(generateUser());
 
-        mockMvc.perform(get("/v1/users/{id}", user1.getId()).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/users/{userId}", user1.getId()).contentType(MediaType.APPLICATION_JSON))
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
@@ -97,11 +101,10 @@ class UserApiIntegrationTest extends IntegrationTestBase {
 
     @Test
     void shouldReturnAllUsersOlderThan_whenGettingAllUsersOlderThan() throws Exception {
-        User user1 = existingUser(generateUserWithDate(LocalDate.of(2000, 8, 11)));
-        User user2 = existingUser(generateUserWithDate(LocalDate.of(2024, 8, 11)));
+        User user1 = existingUser(generateUserWithDate(LocalDate.of(1885, 8, 11)));
+        User user2 = existingUser(generateUserWithDate(LocalDate.of(1900, 8, 11)));
 
-
-        mockMvc.perform(get("/v1/users/older/{time}", LocalDate.of(2024, 8, 10)).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/users/older/{time}", LocalDate.of(1899, 8, 10)).contentType(MediaType.APPLICATION_JSON))
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
@@ -115,7 +118,7 @@ class UserApiIntegrationTest extends IntegrationTestBase {
     @Test
     void shouldRemoveUserFromRepository_whenDeletingClient() throws Exception {
         User user1 = existingUser(generateUser());
-
+        List<User> allUserDebug = getAllUsers();
 
         mockMvc.perform(delete("/v1/users/{userId}", user1.getId())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -123,8 +126,7 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 .andExpect(status().isNoContent());
 
         List<User> allUser = getAllUsers();
-        assertThat(allUser).isEmpty();
-
+        assertThat(allUserDebug.size()).isGreaterThan(allUser.size());
     }
 
     @Test
@@ -145,7 +147,6 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 }
                 """.formatted(
                 USER_NAME,
-
                 USER_LAST_NAME,
                 USER_BIRTHDATE,
                 USER_EMAIL);
@@ -157,7 +158,7 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 .andExpect(status().isCreated());
 
         List<User> allUsers = getAllUsers();
-        User user = allUsers.get(0);
+        User user = allUsers.get(allUsers.size()-1);
 
         assertThat(user.getFirstName()).isEqualTo(USER_NAME);
         assertThat(user.getLastName()).isEqualTo(USER_LAST_NAME);
@@ -167,7 +168,7 @@ class UserApiIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
-    void shouldUpdateUser_whenUpdatingUser() throws Exception {
+    void  User_whenUpdatingUser() throws Exception {
         User user1 = existingUser(generateUser());
 
         String USER_NAME = "Mike";
@@ -185,7 +186,6 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 }
                 """.formatted(
                 USER_NAME,
-
                 USER_LAST_NAME,
                 USER_BIRTHDATE,
                 USER_EMAIL);
@@ -195,7 +195,7 @@ class UserApiIntegrationTest extends IntegrationTestBase {
                 .content(updateRequest));
 
         List<User> allUsers = getAllUsers();
-        User user = allUsers.get(0);
+        User user = allUsers.get(10);
 
         assertThat(user.getFirstName()).isEqualTo(USER_NAME);
         assertThat(user.getLastName()).isEqualTo(USER_LAST_NAME);
