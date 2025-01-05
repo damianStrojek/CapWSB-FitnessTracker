@@ -37,7 +37,7 @@ class UserServiceImpl implements UserService, UserProvider {
     public void deleteUserById(final Long userId) {
         log.info("Deleting User with ID {}", userId);
 
-        if (user.getId() != null) {
+        if (UserServiceImpl.this.getUser(userId).isEmpty()) {
             throw new IllegalArgumentException("There is no user with given ID!");
         }
 
