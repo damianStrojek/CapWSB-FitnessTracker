@@ -23,15 +23,6 @@ public interface UserProvider {
     Optional<User> getUser(Long userId);
 
     /**
-     * Retrieves a user based on their email.
-     * If the user with given email is not found, then {@link Optional#empty()} will be returned.
-     *
-     * @param email The email of the user to be searched
-     * @return An {@link Optional} containing the located user, or {@link Optional#empty()} if not found
-     */
-    Optional<User> getUserByEmail(String email);
-
-    /**
      * Retrieves all users.
      *
      * @return An {@link Optional} containing the all users,
@@ -40,6 +31,6 @@ public interface UserProvider {
 
     List<User> getUsersByEmailPart(String emailPart);
 
-    List<User> getUsersBornBefore(LocalDate date);
+    List<User> getUsersBornAfter(LocalDate date);
 
 }

@@ -22,18 +22,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 class TrainingServiceImpl implements TrainingProvider, TrainingService {
-
     private final TrainingRepository trainingRepository;
     private final UserRepository userRepository;
 
     public TrainingServiceImpl(TrainingRepository trainingRepository, UserRepository userRepository) {
         this.trainingRepository = trainingRepository;
         this.userRepository = userRepository;
-    }
-
-    @Override
-    public Optional<User> getTraining(final Long trainingId) {
-        throw new UnsupportedOperationException("Not finished yet");
     }
 
     @Override

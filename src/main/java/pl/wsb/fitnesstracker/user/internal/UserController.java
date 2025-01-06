@@ -14,8 +14,7 @@ import pl.wsb.fitnesstracker.user.api.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * Controller for users.
@@ -101,14 +100,14 @@ class UserController {
     }
 
     /**
-     * Get users born before a given date
+     * Get users born after a given date
      *
      * @param date LocalDate
      * @return List of UserDto
      */
-    @GetMapping("/older/{date}")
-    public List<UserDto> findUsersBornBefore(@PathVariable LocalDate date) {
-        return userService.getUsersBornBefore(date).stream()
+    @GetMapping("/younger/{date}")
+    public List<UserDto> findUsersBornAfter(@PathVariable LocalDate date) {
+        return userService.getUsersBornAfter(date).stream()
                 .map(userMapper::toDto)
                 .toList();
     }
@@ -122,10 +121,14 @@ class UserController {
     @PostMapping
     @ResponseStatus(CREATED)
     public User addUser(@RequestBody UserDto userDto) throws InterruptedException {
+        User createdUser = null;
+        try{
+            createdUser = userService.createUser(userMapper.toEntity(userDto));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Not able to add user of ID: " + createdUser.getId() + ".\nError: " + e.getMessage());
+        }
 
-        System.out.println("User with e-mail: " + userDto.email() + "passed to the request.");
-
-        return userService.createUser(userMapper.toEntity(userDto));
+        return createdUser;
     }
 
     /**
@@ -139,7 +142,7 @@ class UserController {
         try {
             userService.deleteUserById(userId);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot delete user with ID: " + userId + " with error: " + e.getMessage());
+            throw new IllegalArgumentException("Not able to delete user of ID: " + userId + ".\nError: " + e.getMessage());
         }
     }
 
@@ -151,15 +154,14 @@ class UserController {
      * @return User
      */
     @PutMapping("/{userId}")
+    @ResponseStatus(OK)
     public User updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
         try {
-            User foundUser = userService.getUser(userId).orElseThrow(() -> new IllegalArgumentException("User with ID: " + userId + " not found"));
-            User updatedUser = userMapper.toUpdateEntity(userDto, foundUser);
-
-            return userService.updateUser(updatedUser);
+            User userDebug = userService.getUser(userId).orElseThrow(() -> new IllegalArgumentException("User with ID: " + userId + " was not found"));
+            User userUpdate = userMapper.toUpdateEntity(userDto, userDebug);
+            return userService.updateUser(userUpdate);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot update user with ID: " + userId + " with error: " + e.getMessage());
+            throw new IllegalArgumentException("Not able to update user of ID: " + userId + ".\nError: " + e.getMessage());
         }
     }
-
 }

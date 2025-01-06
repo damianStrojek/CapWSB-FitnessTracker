@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param emailPart String email of the user to search
      * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
-    default List<User> findByEmailContainingIgnoreCase(String emailPart){
+    default List<User> findByEmailPartIgnoreCase(String emailPart){
         return findAll().stream()
                 .filter(user -> user.getEmail().toLowerCase().contains(emailPart.toLowerCase()))
                 .toList();
@@ -48,9 +48,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param date LocalDate of the user to search
      * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
-    default List<User> findByBirthdateBefore(LocalDate date){
+    default List<User> findByBirthdateAfter(LocalDate date){
         return findAll().stream()
-                .filter(user -> user.getBirthdate().isBefore(date))
+                .filter(user -> user.getBirthdate().isAfter(date))
                 .toList();
     }
 

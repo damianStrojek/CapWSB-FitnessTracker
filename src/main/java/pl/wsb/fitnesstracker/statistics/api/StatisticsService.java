@@ -16,9 +16,8 @@ public interface StatisticsService {
      * Creates a new statistics record.
      *
      * @param statistics the statistics to create
-     * @return the created statistics
      */
-    Statistics createStatistics(Statistics statistics);
+    void createStatistics(Statistics statistics);
 
     /**
      * Updates an existing statistics record.

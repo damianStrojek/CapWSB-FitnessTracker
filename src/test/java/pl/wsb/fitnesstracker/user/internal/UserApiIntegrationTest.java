@@ -100,11 +100,11 @@ class UserApiIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
-    void shouldReturnAllUsersOlderThan_whenGettingAllUsersOlderThan() throws Exception {
-        User user1 = existingUser(generateUserWithDate(LocalDate.of(1885, 8, 11)));
-        User user2 = existingUser(generateUserWithDate(LocalDate.of(1900, 8, 11)));
+    void shouldReturnAllUsersOlderThan_whenGettingAllUsersYoungerThan() throws Exception {
+        User user1 = existingUser(generateUserWithDate(LocalDate.of(2050, 8, 11)));
+        User user2 = existingUser(generateUserWithDate(LocalDate.of(2040, 8, 11)));
 
-        mockMvc.perform(get("/v1/users/older/{time}", LocalDate.of(1899, 8, 10)).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/users/younger/{time}", LocalDate.of(2049, 8, 10)).contentType(MediaType.APPLICATION_JSON))
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
