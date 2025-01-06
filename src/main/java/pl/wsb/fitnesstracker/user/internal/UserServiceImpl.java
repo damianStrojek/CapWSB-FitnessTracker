@@ -34,13 +34,21 @@ class UserServiceImpl implements UserService, UserProvider {
     @Override
     public User createUser(final User user) {
 
-        log.info("Creating User " + user);
+        log.info("Creating following user:" + user);
 
-        if (user.getId() != null) {
-            throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
-        }
+        if (user.getId() != null)
+            throw new IllegalArgumentException("User has already an ID, update is not permitted!");
 
         return userRepository.save(user);
+    }
+
+    /**
+     * Get all Users
+     * @return List of Users
+     */
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     /**
@@ -50,9 +58,8 @@ class UserServiceImpl implements UserService, UserProvider {
      */
     @Override
     public User updateUser(final User user) {
-        if (user.getId() == null) {
+        if (user.getId() == null)
             throw new IllegalArgumentException("User has NULL id.");
-        }
         return userRepository.save(user);
     }
 
@@ -64,9 +71,8 @@ class UserServiceImpl implements UserService, UserProvider {
     public void deleteUserById(final Long userId) {
         log.info("Deleting User with ID " + userId);
 
-        if (UserServiceImpl.this.getUser(userId).isEmpty()) {
-            throw new IllegalArgumentException("There is no user with given ID!");
-        }
+        if (UserServiceImpl.this.getUser(userId).isEmpty())
+            throw new IllegalArgumentException("There is no user with given ID.");
 
         userRepository.deleteById(userId);
     }
@@ -82,23 +88,13 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     /**
-     * Get a User by email
-     * @param email String
-     * @return An {@link Optional} containing the located User, or {@link Optional#empty()} if not found
-     */
-    @Override
-    public Optional<User> getUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    /**
      * Get a User by part of an email
      * @param emailPart String
      * @return List of Users
      */
     @Override
     public List<User> getUsersByEmailPart(String emailPart) {
-        return userRepository.findByEmailContainingIgnoreCase(emailPart);
+        return userRepository.findByEmailPartIgnoreCase(emailPart);
     }
 
     /**
@@ -107,17 +103,8 @@ class UserServiceImpl implements UserService, UserProvider {
      * @return List of Users
      */
     @Override
-    public List<User> getUsersBornBefore(LocalDate date) {
-        return userRepository.findByBirthdateBefore(date);
-    }
-
-    /**
-     * Get all Users
-     * @return List of Users
-     */
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getUsersBornAfter(LocalDate date) {
+        return userRepository.findByBirthdateAfter(date);
     }
 
 }

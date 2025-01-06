@@ -50,7 +50,9 @@ public class User {
         this.email = email;
     }
 
-    // Getters and setters
+    /*
+        Getters and setters
+     */
     public Long getId() {
         return this.id;
     }

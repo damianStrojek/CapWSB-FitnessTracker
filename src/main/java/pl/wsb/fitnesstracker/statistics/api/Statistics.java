@@ -17,47 +17,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Statistics {
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setTotalTrainings(int totalTrainings) {
-        this.totalTrainings = totalTrainings;
-    }
-
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance = totalDistance;
-    }
-
-    public void setTotalCaloriesBurned(int totalCaloriesBurned) {
-        this.totalCaloriesBurned = totalCaloriesBurned;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public int getTotalTrainings() {
-        return totalTrainings;
-    }
-
-    public double getTotalDistance() {
-        return totalDistance;
-    }
-
-    public int getTotalCaloriesBurned() {
-        return totalCaloriesBurned;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -75,41 +34,59 @@ public class Statistics {
     @Column(name = "total_calories_burned")
     private int totalCaloriesBurned;
 
-    /**
-     * Constructor for Statistics entity
-     * @param user user entity
-     * @param totalTrainings total number of trainings
-     * @param totalDistance total distance
-     * @param totalCaloriesBurned total calories burned
-     */
-    public Statistics(User user,
-                      int totalTrainings,
-                      double totalDistance,
-                      int totalCaloriesBurned) {
+    public Statistics(User user, int totalTrainings, double totalDistance, int totalCaloriesBurned) {
         this.user = user;
         this.totalTrainings = totalTrainings;
         this.totalDistance = totalDistance;
         this.totalCaloriesBurned = totalCaloriesBurned;
     }
 
-    /**
-     * Constructor for Statistics entity
-     * @param id id of the entity
-     * @param user user entity
-     * @param totalTrainings total number of trainings
-     * @param totalDistance total distance
-     * @param caloriesBurned total calories burned
-     */
-    public Statistics(Long id,
-                      User user,
-                      int totalTrainings,
-                      double totalDistance,
-                      int caloriesBurned) {
+    public Statistics(Long id, User user, int totalTrainings, double totalDistance, int caloriesBurned) {
         this.id = id;
         this.user = user;
         this.totalTrainings = totalTrainings;
         this.totalDistance = totalDistance;
         this.totalCaloriesBurned = caloriesBurned;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getTotalTrainings() {
+        return totalTrainings;
+    }
+
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public int getTotalCaloriesBurned() {
+        return totalCaloriesBurned;
+    }
+
+    public void setTotalTrainings(int totalTrainings) {
+        this.totalTrainings = totalTrainings;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public void setTotalCaloriesBurned(int totalCaloriesBurned) {
+        this.totalCaloriesBurned = totalCaloriesBurned;
     }
 
 }

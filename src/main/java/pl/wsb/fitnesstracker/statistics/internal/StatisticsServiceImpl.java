@@ -72,10 +72,9 @@ public class StatisticsServiceImpl implements StatisticsService, StatisticsProvi
      * Creates a new statistics.
      *
      * @param statistics statistics to be created
-     * @return created statistics
      */
     @Override
-    public Statistics createStatistics(Statistics statistics) {
+    public void createStatistics(Statistics statistics) {
         Logger log = Logger.getLogger(StatisticsServiceImpl.class.getName());
 
         log.info("Creating statistics: " + statistics);
@@ -83,7 +82,7 @@ public class StatisticsServiceImpl implements StatisticsService, StatisticsProvi
             throw new IllegalArgumentException("Training id is already set");
         }
 
-        return statisticsRepository.save(statistics);
+        statisticsRepository.save(statistics);
     }
 
     /**

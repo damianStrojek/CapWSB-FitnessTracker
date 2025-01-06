@@ -48,35 +48,35 @@ public class UserMapper {
      * @return User
      */
     public User toUpdateEntity(UserDto userDto, User user) {
-        if(userDto.firstName() != null) {
-            user.setFirstName(userDto.firstName());
-        }
+        if(userDto.firstName() != null) user.setFirstName(userDto.firstName());
 
-        if(userDto.lastName() != null) {
-            user.setLastName(userDto.lastName());
-        }
+        if(userDto.lastName() != null) user.setLastName(userDto.lastName());
 
-        if(userDto.birthdate() != null) {
-            user.setBirthdate(userDto.birthdate());
-        }
+        if(userDto.birthdate() != null) user.setBirthdate(userDto.birthdate());
 
-        if(userDto.email() != null) {
-            user.setEmail(userDto.email());
-        }
+        if(userDto.email() != null) user.setEmail(userDto.email());
 
         return user;
     }
 
+    /**
+     * Maps User to UserSimpleDto entity with state of previous entity
+     * @param user User
+     *
+     * @return User
+     */
     public UserSimpleDto toSimpleDto(User user) {
         return new UserSimpleDto(user.getId(), user.getFirstName(), user.getLastName());
     }
 
+    /**
+     * Maps User to UserDetailsDto entity with state of previous entity
+     * @param user User
+     *
+     * @return User
+     */
     public UserDetailsDto toDetailsDto(User user) {
         return new UserDetailsDto(user.getFirstName(), user.getBirthdate(), user.getEmail());
-    }
-
-    UserIdEmailDto toUserIdEmailDto(User user) {
-        return new UserIdEmailDto(user.getId(), user.getEmail());
     }
 
 }

@@ -79,12 +79,9 @@ public class StatisticsController {
     @ResponseStatus(HttpStatus.CREATED)
     public StatisticsDto addStatistics(@RequestBody StatisticsDtoWithUserId statisticsDto) {
         try {
-            statisticsService.createStatistics(
-                    statisticsMapper.toEntity(statisticsDto, null)
-            );
-
+            statisticsService.createStatistics(statisticsMapper.toEntity(statisticsDto, null));
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot add statistics with error: " + e.getMessage());
+            throw new IllegalArgumentException("Not able to add statistics.\nError: " + e.getMessage());
         }
 
         return null;
@@ -98,14 +95,15 @@ public class StatisticsController {
      * @return the updated statistics DTO
      */
     @PutMapping("/{statisticsId}")
+    @ResponseStatus(HttpStatus.OK)
     public Statistics updateStatistics(@PathVariable Long statisticsId, @RequestBody StatisticsDtoWithUserId statisticsDto) {
         try {
-            Statistics foundStatistics = statisticsService.getStatistics(statisticsId).orElseThrow(() -> new IllegalArgumentException("Statistics with ID: " + statisticsId + " not found"));
+            Statistics foundStatistics = statisticsService.getStatistics(statisticsId).orElseThrow(() ->
+                    new IllegalArgumentException("Statistics of ID: " + statisticsId + " not found"));
             Statistics updatedStatistics = statisticsMapper.toUpdateEntity(statisticsDto, foundStatistics);
-
             return statisticsService.updateStatistics(updatedStatistics);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot update statistics with ID: " + statisticsId + " with error: " + e.getMessage());
+            throw new IllegalArgumentException("Not able to update statistics with ID: " + statisticsId + ".\nError: " + e.getMessage());
         }
     }
 
@@ -120,7 +118,7 @@ public class StatisticsController {
         try {
             statisticsService.deleteStatistics(statisticsId);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot delete statistics with ID: " + statisticsId + " with error: " + e.getMessage());
+            throw new IllegalArgumentException("Not able to delete statistics with ID: " + statisticsId + ".\nError: " + e.getMessage());
         }
     }
 }

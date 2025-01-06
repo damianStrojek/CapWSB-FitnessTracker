@@ -17,20 +17,34 @@ import java.util.Optional;
 public interface TrainingProvider {
 
     /**
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+     * Retrieves all trainings
      *
-     * @param trainingId id of the training to be searched
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @return All trainings in the database
      */
-    Optional<User> getTraining(Long trainingId);
-
     List<Training> getAllTrainings();
 
+    /**
+     * Retrieves a training based on userIds
+     *
+     * @param userId Long
+     * @return List of all trainings for given userId
+     */
     List<Training> getTrainingsByUserId(Long userId);
 
+    /**
+     * Retrieves a trainings with the date after specified argument
+     *
+     * @param date LocalDate
+     * @return List of all training with endDate after specified parameter
+     */
     List<Training> getCompletedTrainingsAfter(LocalDate date);
 
+    /**
+     * Retrieves a training based on their activityType
+     *
+     * @param activityType ActivityType
+     * @return List of all trainings that are specified with given activityType
+     */
     List<Training> getTrainingsByActivityType(ActivityType activityType);
     
 }

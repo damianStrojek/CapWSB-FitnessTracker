@@ -20,12 +20,21 @@ public class TrainingUpdateDto {
     private final double distance;
     private final double averageSpeed;
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public TrainingUpdateDto(Long userId, LocalDateTime startTime, LocalDateTime endTime, String activityType, double distance, double averageSpeed) {
+        this.userId = userId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.activityType = activityType;
+        this.distance = distance;
+        this.averageSpeed = averageSpeed;
     }
 
     public Long getUserId() {
         return userId;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     public LocalDateTime getEndTime() {
@@ -42,14 +51,5 @@ public class TrainingUpdateDto {
 
     public double getAverageSpeed() {
         return averageSpeed;
-    }
-
-    public TrainingUpdateDto(Long userId, LocalDateTime startTime, LocalDateTime endTime, String activityType, double distance, double averageSpeed) {
-        this.userId = userId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.activityType = activityType;
-        this.distance = distance;
-        this.averageSpeed = averageSpeed;
     }
 }
